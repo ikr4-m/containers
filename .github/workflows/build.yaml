@@ -7,7 +7,7 @@ on:
 
 jobs:
   php_nodejs:
-    uses: ./.github/workflows/reusable-push-image.yml
+    uses: ./.github/workflows/reusable-push-image.yaml
     strategy:
       matrix:
         version:
