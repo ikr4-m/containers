@@ -1,0 +1,22 @@
+name: Build Image for all Dockerfile
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  php_nodejs:
+    uses: ./.github/workflows/reusable-push-image.yml
+    strategy:
+      matrix:
+        version:
+          - 8.2
+    with:
+      context: ./php_nodejs
+      file: ./php_nodejs/Dockerfile
+      images_name: ghcr.io/${{ github.repository }}-php-nodejs
+      tags: type=raw,value=${{ matrix.version }}
+      build_args: |
+        PHP_VERSION=${{ matrix.version }}
+    secrets: inherit
