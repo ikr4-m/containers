@@ -14,5 +14,7 @@ RUN set -ex; \
         openssh \
         ncdu;
 
+RUN install-php-extensions gd
+
 USER www-data
 ENV PHP_OPCACHE_ENABLE=1
