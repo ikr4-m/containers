@@ -20,3 +20,11 @@ jobs:
       build_args: |
         PHP_VERSION=${{ matrix.version }}
     secrets: inherit
+  
+  ssh-honeypot:
+    uses: ./.github/workflows/reusable-push-image.yaml
+    with:
+      context: ./ssh-honeypot
+      file: ./ssh-honeypot/Dockerfile
+      images_name: ghcr.io/${{ github.repository }}-ssh-honeypot
+    secrets: inherit
