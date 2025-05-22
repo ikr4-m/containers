@@ -13,6 +13,7 @@ jobs:
         version:
           - 8.2
     with:
+      name: ${{ github.job }}
       file: Dockerfile
       tags: type=raw,value=${{ matrix.version }}
       build_args: |
@@ -22,5 +23,6 @@ jobs:
   ssh-honeypot:
     uses: ./.github/workflows/reusable-push-image.yaml
     with:
+      name: ${{ github.job }}
       file: Dockerfile
     secrets: inherit
