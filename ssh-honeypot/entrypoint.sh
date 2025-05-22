@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -eu
 
 if [ "$EUID" -ne 0 ]; then
@@ -17,5 +16,8 @@ sudo -i -u login bash <<EOF
     chmod 600 ~/.ssh/authorized_keys
 EOF
 
+echo "[INFO] Generate keygen"
+ssh-keygen -A
+
 echo "[INFO] Start SSH Daemon"
-/usr/sbin/sshd -d -p 22
+/usr/sbin/sshd -d -D -p "$SSH_PORT"

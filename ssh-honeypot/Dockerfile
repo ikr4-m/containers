@@ -7,12 +7,14 @@ RUN set -ex; \
 RUN set -ex; \
     adduser login -D; \
     passwd login -d; \
-    ssh-keygen -A;
+    chown login:login /home/login; \
+    chmod 700 /home/login;
 
 COPY ./tunnel.conf /etc/ssh/sshd_config.d/
 COPY ./force-command.sh /
 COPY ./entrypoint.sh /
 
 USER root
+ENV SSH_PORT=22
 EXPOSE 22
 ENTRYPOINT ["/entrypoint.sh"]
