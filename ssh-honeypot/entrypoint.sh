@@ -18,4 +18,4 @@ sudo -i -u login bash <<EOF
 EOF
 
 echo "[INFO] Start SSH Daemon"
-/usr/sbin/sshd -D
+/usr/sbin/sshd -d -p 22
