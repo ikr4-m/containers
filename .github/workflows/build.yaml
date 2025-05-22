@@ -13,9 +13,7 @@ jobs:
         version:
           - 8.2
     with:
-      context: ./php_nodejs
-      file: ./php_nodejs/Dockerfile
-      images_name: ghcr.io/${{ github.repository }}-php-nodejs
+      file: Dockerfile
       tags: type=raw,value=${{ matrix.version }}
       build_args: |
         PHP_VERSION=${{ matrix.version }}
@@ -24,7 +22,5 @@ jobs:
   ssh-honeypot:
     uses: ./.github/workflows/reusable-push-image.yaml
     with:
-      context: ./ssh-honeypot
-      file: ./ssh-honeypot/Dockerfile
-      images_name: ghcr.io/${{ github.repository }}-ssh-honeypot
+      file: Dockerfile
     secrets: inherit
