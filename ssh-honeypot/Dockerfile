@@ -16,5 +16,6 @@ COPY ./entrypoint.sh /
 
 USER root
 ENV SSH_PORT=22
+ENV DEBUG_MODE=""
 EXPOSE 22
 ENTRYPOINT ["/entrypoint.sh"]

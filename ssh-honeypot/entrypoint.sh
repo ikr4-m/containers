@@ -20,4 +20,4 @@ echo "[INFO] Generate keygen"
 ssh-keygen -A
 
 echo "[INFO] Start SSH Daemon"
-/usr/sbin/sshd -d -D -p "$SSH_PORT"
+/usr/sbin/sshd $([ "$DEBUG_MODE" != "" ] && echo "-d") -D -p "$SSH_PORT"
