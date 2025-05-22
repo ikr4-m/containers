@@ -3,7 +3,7 @@ name: Reusable workflow for template
 on:
   workflow_call:
     inputs:
-      name:
+      project_name:
         type: string
         required: true
       file:
@@ -43,7 +43,7 @@ jobs:
           flavor: |
             latest=auto
             suffix=${{ steps.flavor.outputs.name }}
-          images: ghcr.io/${{ github.repository }}-${{ inputs.name }}
+          images: ghcr.io/${{ github.repository }}-${{ inputs.project_name }}
           tags: |
             type=sha,format=short,prefix=commit-
             ${{ inputs.tags }}
@@ -53,9 +53,9 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
-          context: ./${{ inputs.name }}
+          context: ./${{ inputs.project_name }}
           push: true
           tags: ${{ steps.img_meta.outputs.tags }}
           labels: ${{ steps.img_meta.outputs.labels }}
-          file: ./${{ inputs.name }}/${{ inputs.file }}
+          file: ./${{ inputs.project_name }}/${{ inputs.file }}
           build-args: ${{ inputs.build_args }}
