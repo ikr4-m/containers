@@ -13,7 +13,7 @@ RUN set -ex; \
     chown login:login /home/login; \
     chmod 700 /home/login;
 
-COPY ./tunnel.conf /etc/ssh/sshd_config.d/
+COPY ./tunnel.conf /etc/ssh.default/sshd_config.d/
 COPY ./force-command.sh /
 COPY ./entrypoint.sh /
 

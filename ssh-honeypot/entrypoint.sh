@@ -14,6 +14,7 @@ qecho "Initialize SSH configuration"
 DEFAULT_CONF_DIR="/etc/ssh.default"
 CONF_DIR="/etc/ssh"
 
+# This script will be executed if user mounting `/etc/ssh`
 if [ ! -f "$CONF_DIR/sshd_config" ]; then
     qecho "Backuping SSH configuration for first timer initialization"
     cp -R $DEFAULT_CONF_DIR/* $CONF_DIR/
