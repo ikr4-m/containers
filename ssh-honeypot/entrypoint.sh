@@ -34,8 +34,5 @@ runuser -u login -g login -- bash <<EOF
     chmod 600 ~/.ssh/authorized_keys
 EOF
 
-qecho "Generate keygen"
-ssh-keygen -A
-
 qecho "Start SSH Daemon"
 /usr/sbin/sshd $([ "${DEBUG_MODE}" != "" ] && echo "-d") -D -e -p "${SSH_PORT}"
