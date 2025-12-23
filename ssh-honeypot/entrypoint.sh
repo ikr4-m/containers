@@ -1,14 +1,32 @@
-#!/bin/bash
-set -eu
+#!/usr/bin/env bash
+set -euo pipefail
 
 if [ "$EUID" -ne 0 ]; then
     echo "Please run as root"
     exit 1
 fi
 
-echo "[INFO] Setup home user"
-sudo -i -u login bash <<EOF
-    set -ex
+qecho() {
+    printf "[%s] [SSH] %s\n" "$(date +'%Y-%m-%d %H:%M:%S')" "$*"
+}
+
+qecho "Initialize SSH configuration"
+DEFAULT_CONF_DIR="/etc/ssh.default"
+CONF_DIR="/etc/ssh"
+
+if [ ! -f "$CONF_DIR/sshd_config" ]; then
+    qecho "Backuping SSH configuration for first timer initialization"
+    cp -R $DEFAULT_CONF_DIR/* $CONF_DIR/
+fi
+
+if [ ! -f "$CONF_DIR/ssh_host_rsa_key" ]; then
+    qecho "Generating SSH host keys"
+    ssh-keygen -A
+fi
+
+qecho "Setup home user"
+runuser -u login -g login -- bash <<EOF
+    set -eu
     mkdir -p ~/.ssh
     if [ ! -f ~/.ssh/authorized_keys ]; then
         touch ~/.ssh/authorized_keys
@@ -16,8 +34,8 @@ sudo -i -u login bash <<EOF
     chmod 600 ~/.ssh/authorized_keys
 EOF
 
-echo "[INFO] Generate keygen"
+qecho "Generate keygen"
 ssh-keygen -A
 
-echo "[INFO] Start SSH Daemon"
-/usr/sbin/sshd $([ "$DEBUG_MODE" != "" ] && echo "-d") -D -p "$SSH_PORT"
+qecho "Start SSH Daemon"
+/usr/sbin/sshd $([ "${DEBUG_MODE}" != "" ] && echo "-d") -D -e -p "${SSH_PORT}"
