@@ -14,7 +14,6 @@ qecho "Initialize SSH configuration"
 DEFAULT_CONF_DIR="/etc/ssh.default"
 CONF_DIR="/etc/ssh"
 
-# This script will be executed if user mounting `/etc/ssh`
 if [ ! -f "$CONF_DIR/sshd_config" ]; then
     qecho "Backuping SSH configuration for first timer initialization"
     cp -R $DEFAULT_CONF_DIR/* $CONF_DIR/
@@ -24,6 +23,10 @@ if [ ! -f "$CONF_DIR/ssh_host_rsa_key" ]; then
     qecho "Generating SSH host keys"
     ssh-keygen -A
 fi
+
+qecho "Fixing SSH host keys permissions"
+chmod 600 /etc/ssh/ssh_host_*_key 2>/dev/null || true
+chmod 644 /etc/ssh/ssh_host_*_key.pub 2>/dev/null || true
 
 qecho "Setup home user"
 chmod 700 /home/login

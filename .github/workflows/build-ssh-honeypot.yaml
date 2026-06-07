@@ -1,0 +1,16 @@
+name: Build Image for all Dockerfile
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'ssh-honeypot/**'
+
+jobs:
+  ssh-honeypot:
+    uses: ./.github/workflows/reusable-push-image.yaml
+    with:
+      project_name: ssh-honeypot
+      file: Dockerfile
+    secrets: inherit

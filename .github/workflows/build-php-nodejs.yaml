@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'php-nodejs/**'
 
 jobs:
   php_nodejs:
@@ -18,11 +20,4 @@ jobs:
       tags: type=raw,value=${{ matrix.version }}
       build_args: |
         PHP_VERSION=${{ matrix.version }}
-    secrets: inherit
-  
-  ssh-honeypot:
-    uses: ./.github/workflows/reusable-push-image.yaml
-    with:
-      project_name: ssh-honeypot
-      file: Dockerfile
     secrets: inherit
