@@ -26,9 +26,15 @@ if [ ! -f "$CONF_DIR/ssh_host_rsa_key" ]; then
 fi
 
 qecho "Setup home user"
+chmod 700 /home/login
+chown -R login:login /home/login
+
 runuser -u login -g login -- bash <<EOF
     set -eu
+
     mkdir -p ~/.ssh
+    chmod 700 ~/.ssh
+
     if [ ! -f ~/.ssh/authorized_keys ]; then
         touch ~/.ssh/authorized_keys
     fi
