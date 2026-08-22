@@ -29,7 +29,7 @@ chmod 600 /etc/ssh/ssh_host_*_key 2>/dev/null || true
 chmod 644 /etc/ssh/ssh_host_*_key.pub 2>/dev/null || true
 
 qecho "Setup home user"
-chmod 700 /home/login
+chmod 750 /home/login
 chown -R login:login /home/login
 
 runuser -u login -g login -- bash <<EOF
