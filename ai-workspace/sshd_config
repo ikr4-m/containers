@@ -1,0 +1,8 @@
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+AuthorizedKeysFile /home/dev/.ssh/authorized_keys
+X11Forwarding no
+AllowTcpForwarding no
+ClientAliveInterval 60
+ClientAliveCountMax 3

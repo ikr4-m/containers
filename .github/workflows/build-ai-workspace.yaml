@@ -1,0 +1,16 @@
+name: Build Image for AI Workspace
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'ai-workspace/**'
+
+jobs:
+  ai-workspace:
+    uses: ./.github/workflows/reusable-push-image.yaml
+    with:
+      project_name: ai-workspace
+      file: Dockerfile
+    secrets: inherit
