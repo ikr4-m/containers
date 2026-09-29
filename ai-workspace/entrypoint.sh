@@ -33,9 +33,23 @@ qecho "Setting up dev home directory"
 chown dev:dev /home/dev
 chmod 750 /home/dev
 
-# Ensure .ssh dir exists
+# Initialize skeleton and dev configuration
 runuser -u dev -- bash <<'EOF'
 set -eu
+
+# Copy skeleton files if missing in /home/dev (e.g. empty PVC/volume mount)
+cp -rn /etc/skel/. ~/ 2>/dev/null || true
+
+# Ensure login shells (SSH) load .bashrc
+if [ ! -f ~/.profile ] && [ ! -f ~/.bash_profile ]; then
+    echo 'if [ -f ~/.bashrc ]; then . ~/.bashrc; fi' > ~/.profile
+elif [ -f ~/.profile ] && ! grep -q '\.bashrc' ~/.profile 2>/dev/null; then
+    echo 'if [ -f ~/.bashrc ]; then . ~/.bashrc; fi' >> ~/.profile
+fi
+if [ -f ~/.bash_profile ] && ! grep -q '\.bashrc' ~/.bash_profile 2>/dev/null; then
+    echo 'if [ -f ~/.bashrc ]; then . ~/.bashrc; fi' >> ~/.bash_profile
+fi
+
 mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 [ -f ~/.ssh/authorized_keys ] || touch ~/.ssh/authorized_keys
