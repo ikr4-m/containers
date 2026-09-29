@@ -1,9 +1,9 @@
 FROM node:20-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    openssh-server tmux mosh git curl \
+    openssh-server tmux mosh git curl zip unzip zstd \
     python3 python3-pip python3-venv sudo \
-    vim nano fzf \
+    vim nano fzf wget \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /run/sshd \
     && cp -r /etc/ssh /etc/ssh.default
