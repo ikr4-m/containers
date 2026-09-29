@@ -5,6 +5,19 @@ qecho() {
     printf "[%s] [AI-WS] %s\n" "$(date +'%Y-%m-%d %H:%M:%S')" "$*"
 }
 
+DEFAULT_CONF_DIR="/etc/ssh.default"
+CONF_DIR="/etc/ssh"
+
+# Initialize /etc/ssh if fresh volume mount
+if [ ! -f "$CONF_DIR/sshd_config" ]; then
+    qecho "Initializing SSH configuration from template"
+    cp -R $DEFAULT_CONF_DIR/* $CONF_DIR/
+else
+    # Always keep custom config up to date
+    mkdir -p $CONF_DIR/sshd_config.d
+    cp -f $DEFAULT_CONF_DIR/sshd_config.d/* $CONF_DIR/sshd_config.d/ 2>/dev/null || true
+fi
+
 # Generate host keys if missing (first run with fresh /etc/ssh PVC)
 if [ ! -f /etc/ssh/ssh_host_ed25519_key ]; then
     qecho "Generating SSH host keys"
