@@ -17,7 +17,13 @@ RUN chmod +x /entrypoint.sh
 
 EXPOSE 22 22002/udp
 
+# For storing SSH host keys to maintain consistent fingerprint across restarts
+VOLUME /etc/ssh
+
+# Dev user home directory: dotfiles, authorized_keys, and persistent CLI agent binaries (~/.npm-global, ~/.local)
 VOLUME /home/dev
+
+# Primary workspace directory for git repositories and project files
 VOLUME /workspace
 
 ENTRYPOINT ["/entrypoint.sh"]

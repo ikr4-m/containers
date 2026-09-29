@@ -44,11 +44,6 @@ chmod 600 ~/.ssh/authorized_keys
 # Setup workspace symlink
 [ -L ~/workspace ] || ln -sf /workspace ~/workspace
 
-# Tmux auto-attach in bashrc (idempotent)
-if ! grep -q 'TMUX' ~/.bashrc 2>/dev/null; then
-    echo 'if [ -z "$TMUX" ] && [ -n "$SSH_CONNECTION" ]; then tmux new-session -A -s main; fi' >> ~/.bashrc
-fi
-
 # npm global prefix to home (idempotent)
 if ! grep -q 'npm-global' ~/.bashrc 2>/dev/null; then
     mkdir -p ~/.npm-global
